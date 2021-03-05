@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: serverless-ojichat
+Globals:
+  Function:
+    Timeout: 5
+
+Resources:
+  OjiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: oji/
+      Handler: oji
+      Runtime: go1.x
+      Tracing: Active
+      Events:
+        CatchAll:
+          Type: Api
+          Properties:
+            Path: /oji
+            Method: POST
+Outputs:
+  OjiAPI:
+    Description: API Endpoint URL
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/oji"
